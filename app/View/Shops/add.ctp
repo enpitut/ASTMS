@@ -8,9 +8,9 @@ echo $this->Form->input('postal_code');
 echo $this->Form->input('prefecture', array(
 			'type'=>'select',
 			  'options'=>array(
-				array('apple'=>'茨城県',
-				      'banana'=>'千葉県',
-				      'melon'=>'東京都'
+				array('茨城県'=>'茨城県',
+				      '千葉県'=>'千葉県',
+				      '東京都'=>'東京都'
 				      )
 				)
 		));
