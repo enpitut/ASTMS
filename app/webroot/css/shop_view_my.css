@@ -1,0 +1,60 @@
+div {
+	/*border: solid 1px #0000ff;*/
+}
+
+body {
+	/*padding: 10px;*/
+	/*background: #999;*/
+	/*font-size: 18px;*/
+	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+.header{
+	background-color: #fafafa;
+	border-bottom: solid 1px #aaa;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.logo {
+	width: 250px;
+}
+
+.search_div{
+	padding-top: 8px;	/*ロゴとの位置合わせ*/
+}
+
+.search_box:focus {
+    border:solid 1px #048;
+    outline: 0;		/*これをやらないとフォーカスしたとき、周りに青いラインが出る*/
+}
+
+.search_box {
+	/*width: 500px;*/
+}
+
+.information_row{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.shop_name{
+	font-size: 3em;
+	color: #08c;
+}
+
+.footer{
+	margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -22,9 +22,9 @@ class ShopsController extends AppController {
 				$image['name'] = strval($this->Shop->id).'.jpg';
 
 				if(move_uploaded_file($image['tmp_name'], $path . '/' . $image['name'])){
-					$this->Session->setFlash('画像を登録しました');
+					// $this->Session->setFlash('画像を登録しました');
 				}else{
-					$this->Session->setFlash('登録失敗');
+					// $this->Session->setFlash('登録失敗');
 				}
 				///////////////////////////////////////////////////////////////////////////////////////////////
 				return $this->redirect(array('action' => 'index'));
@@ -72,9 +72,6 @@ class ShopsController extends AppController {
 			$data = $this->Shop->find('all');
 		}
 		$this->set('result', $data);
-		$fields = array_keys($this->Shop->getColumnTypes());
-		$this->set('fields', $fields);
 	}
-
 }
 ?>
