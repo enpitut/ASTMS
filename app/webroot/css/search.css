@@ -1,41 +1,54 @@
-@charset "utf-8";
-/* CSS Document */
-
-#page{
-	
-	
-	}
-	
-#timage{
-	text-align:center;
-	margin-top:100px;
+div {
+	/*border: solid 1px #0000ff;*/
 }
 
-#middle{
-	text-align:center;
-	margin-top:20px;
-	}
-	
-#inputtext{
-	font-size:36px;
+body {
+	padding: 10px;
+	/*background: #999;*/
+	font-size: 18px;
+	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
-#inputbutton{
-	font-size:36px;
-	color:#0071c1;
-}
-	
-#tbottom{
-	margin-left:100px;
-	margin-right:100px;
-	margin-top:400px;
-	border-top:1px solid #999;
-	padding-top:10px;
-	padding-bottom:40px;
-	padding-left:200px;
-	padding-right:200px;
-	text-align:center;
-	color:#666;
 
-	
-	}
-	
+
+.title {
+	width:  700px;
+	margin-top: 140px;
+}
+
+.search_box{
+	margin-top: 20px;
+	padding: 3px;
+	border:0;
+	font-size:1.5em;
+	/*font-family:Arial, sans-serif;*/
+	/*color:#aaa;*/
+	border:solid 1px #ccc;
+	width:550px;
+}
+
+.search_box:focus {
+    border:solid 1px #048;
+    outline: 0;		/*これをやらないとフォーカスしたとき、周りに青いラインが出る*/
+}
+
+.search_button{
+	background-color: #09f;
+	font-size: 1.5em;
+	/*border:none;*/
+	color: #fff;
+	height: 50px;
+	margin-bottom: 15px;
+}
+
+.search_button:hover {
+	background-color: #2bf;
+	font-size: 1.5em;
+	/*border:none;*/
+	color: #fff;
+	height: 50px;
+	/*margin-bottom: 5px;*/
+}
+
+
+
+
