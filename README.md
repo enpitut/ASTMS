@@ -18,3 +18,6 @@ Shop Area Wiki
 [店内マップ作成・共有]ができ  
 [店員に聞くこと]とは違って  
 [どこでも使える]  
+
+###名言
+Inspiration comes through deep reflection.
