@@ -21,3 +21,5 @@ Shop Area Wiki
 
 ###名言
 Inspiration comes through deep reflection.
+
+###プルリクエストテスト
