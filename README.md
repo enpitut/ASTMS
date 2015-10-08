@@ -21,3 +21,6 @@ Shop Area Wiki
 
 ###名言
 Inspiration comes through deep reflection.
+
+###名言
+It’s fine to celebrate success but it is more important to heed the lessons of failure.
