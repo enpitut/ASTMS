@@ -34,7 +34,7 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<!-- 検索フォーム -->
-				<form  action="/cakephp/shops/search" method="POST">
+				<form  action="/ShopAreaWiki/shops/search" method="POST">
 					<input type="text" name="txt" class="search_box"  autofocus placeholder="店名">
 					<button type="submit" class="btn search_button"> 検 索 </button>
 				</form>

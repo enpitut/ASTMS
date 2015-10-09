@@ -15,7 +15,7 @@ class ShopsController extends AppController {
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
 				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
       			//画像保存先のパス
-				$path = '/Applications/MAMP/htdocs/cakephp/app/webroot/img/shop_images';
+				$path = constant('WWW_ROOT') . '/img/shop_images';
 				//画像の取得
 				$image = $this->request->data['Shop']['image'];
 				//保存する名前

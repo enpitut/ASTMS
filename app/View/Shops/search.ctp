@@ -27,13 +27,13 @@
     <div class="row header">
         <div class="col-md-3">
             <!-- 画像 -->
-            <a href="http://localhost/cakephp/shops/">
+            <a href="http://localhost/ShopAreaWiki/shops/">
             <?php echo $this->Html->image('logo.png', array('alt' => 'Shop Area Wiki','class' => 'logo')); ?>
             </a>
         </div>
         <div class="col-md-8 search_div">
             <!-- 検索フォーム -->
-            <form  action="/cakephp/shops/search" method="POST">
+            <form  action="http://localhost/ShopAreaWiki/shops/search" method="POST">
                 <div class="input-group">
                     <input type="text" name="txt" class="form-control search_box" placeholder="店名">
                     <span class="input-group-btn">
