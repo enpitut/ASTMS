@@ -37,7 +37,7 @@ if (!defined('DS')) {
  */
 if (!defined('ROOT')) {
 	//クローンして作成されたディレクトリのパス
-	define('ROOT', DS.'Users'.DS.'shiohata'.DS.'Documents'.DS.'ASTMS');
+	define('ROOT', DS.'Users'.DS.'hoge'.DS.'ASTMS');
 }
 
 /**
