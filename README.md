@@ -22,7 +22,7 @@ Shop Area Wiki
 MAMPまたはXAMPPを使用していることが前提です
 
 1. このリポジトを適当な場所にクローン
-	`$ git clone https://github.com/enpitut/WakeUp.git`  
+	`$ git clone git@github.com:enpitut/ASTMS.git`  
 	このディレクトリは Web サーバからアクセスできるようにする必要があります。
 	
 1. webrootの設定
