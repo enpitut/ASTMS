@@ -1,0 +1,6 @@
+.DS_Store
+/app/tmp/*
+/app/Config/core.php
+/app/Config/database.php
+/app/Vendor/*
+/app/ShopAreaWiki_webroot/img/shop_images/*
