@@ -15,13 +15,13 @@ class ShopsController extends AppController {
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
 				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
       			//画像保存先のパス
-				$path = constant('WWW_ROOT') . '/img/shop_images';
+				$path = constant('WWW_ROOT') . 'img' . DS . 'shop_images';
 				//画像の取得
 				$image = $this->request->data['Shop']['image'];
 				//保存する名前
 				$image['name'] = strval($this->Shop->id).'.jpg';
 
-				if(move_uploaded_file($image['tmp_name'], $path . '/' . $image['name'])){
+				if(move_uploaded_file($image['tmp_name'], $path . DS . $image['name'])){
 					// $this->Session->setFlash('画像を登録しました');
 				}else{
 					// $this->Session->setFlash('登録失敗');
@@ -94,7 +94,7 @@ class ShopsController extends AppController {
 		$this->set('shop', $shop);
 
 		//背景として読み込む画像のパス
-		$path = '/ShopAreaWiki/app/' . constant('WEBROOT_DIR') . '/img/shop_images';
+		$path = DS . constant('WEBROOT_DIR') . DS .'img' . DS . 'shop_images';
 		$this->set('path', $path);
 		debug($path);
 
@@ -115,7 +115,7 @@ class ShopsController extends AppController {
 		$image = imagecreatefromstring($canvas);
  
 		//画像として保存
-		imagejpeg($image, WWW_ROOT . 'img/shop_images'.DS. strval($this->request->data('Shop.id')).".jpg");
+		imagejpeg($image, WWW_ROOT . 'img' . DS .'shop_images'.DS. strval($this->request->data('Shop.id')).".jpg");
 		imagedestroy($image);
 
 		//トップに戻る
