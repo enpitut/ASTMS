@@ -52,20 +52,20 @@ function drawMap(){
   		img.onload = function() {
   			canvas.width = img.width;
 			canvas.height= img.height;
-    		context.drawImage(img, 0, 0);
+    			context.drawImage(img, 0, 0);
 
-    		//作ったブロックを描写
-    		drawblocks(context);
+    			//作ったブロックを描写
+    			drawblocks(context);
 
-    		//アップした画像は加工しなくても保存可能にする
-    		savemap(canvas);
+    			//アップした画像は加工しなくても保存可能にする
+    			savemap(canvas);
 		}	
     		
-    	//背景 白
-    	context.fillStyle='#FFFFFF';
-    	context.fillRect(0,0, canvas.width, canvas.height);
+    		//背景 白
+    		context.fillStyle='#FFFFFF';
+    		context.fillRect(0,0, canvas.width, canvas.height);
 
-    	//canvasの枠線 黒
+	    	//canvasの枠線 黒
 		context.strokeStyle='#000000';
 		context.strokeRect(0,0,canvas.width, canvas.height);
 
@@ -214,7 +214,7 @@ function deleteAllBlocks()
   	var canvas = document.getElementById('mapcanvas');
 	var context = canvas.getContext('2d');
 
-    //canvasの枠線
+    	//canvasの枠線
 	context.strokeStyle='#000000';
 	context.strokeRect(0,0,canvas.width, canvas.height);
 
