@@ -4,3 +4,4 @@
 /app/Config/database.php
 /app/Vendor/*
 /app/ShopAreaWiki_webroot/img/shop_images/*
+!.gitkeep
