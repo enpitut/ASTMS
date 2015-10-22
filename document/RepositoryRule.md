@@ -29,7 +29,7 @@
 		例：Fix bug of search
 
 ##実際の流れ
-「リポジトリ運用規約の追加」のタスクについて実際にどうやるか説明する  
+「リポジトリ運用規約の追加」のタスクについて実際にどうやるか説明  
 
 * 前提
 	- リポジトリをクローン済み
@@ -51,8 +51,12 @@ $ git push origin feature/create_RepositoryRule
 ```
 
  ![flow3](./RepositoryRule_img/flow3.png "flow3")
+ 
+git add -A を使うときはgitignoreを設定しておこう
 
 ###4．pull requestを送信
+ ![flow4](./RepositoryRule_img/flow4.png "flow4")
+
 * <span style="color:red">コメントにレビューの期間を書く</span>
 	- 例：「2015/10/22までにはレビューしてほしいな」など
 
