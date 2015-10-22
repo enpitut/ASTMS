@@ -61,6 +61,7 @@ git add -A を使うときはgitignoreを設定しておこう
 	- 例：「2015/10/22までにはレビューしてほしいな」など
 
 ###5．みんなでレビュー
+ ![flow5](./RepositoryRule_img/flow5.png "flow5")
 
 ###6．許可が出たら，developブランチへmarge
 <span style="color:red">基本，pull req送信した人がmargeするようにしよう．</span>
