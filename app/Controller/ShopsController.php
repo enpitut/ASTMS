@@ -1,9 +1,10 @@
 <?php
 class ShopsController extends AppController {
-	public $helpers = array('Html', 'Form', 'Session');
+	public $helpers = array('Html', 'Form', 'Session', 'GoogleMap');
 	public $components = array('Session');
 
 	public function index() {
+		$this->set('shops', $this->Shop->find('all'));
 	}
 
 	public function add() {
