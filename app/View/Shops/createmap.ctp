@@ -30,6 +30,7 @@ var x2, y2;//終点
 var drag = false;//ドラッグ中か
 
 var chosenblock=0;//マウスで選択したブロックのナンバー (0 = 非選択状態)
+var currentcolor='#FF0000';//現在選択している色
 
 //背景+保存済みのブロック描画
 function drawMap(){
@@ -158,7 +159,7 @@ function mouseup(e) {
 		if(result != ""){
 			blocks.push(new Array(x1, y1, x2-x1, y2-y1));
 			labels.push(result);
-			colors.push(getCurrentColor());
+			colors.push(currentcolor);
 		}
 	}else if(radioList[1].checked){//ブロック移動
 		//ブロックの座標を更新
@@ -195,14 +196,15 @@ function savemap(canvas){
 //配列blocks,labels,colorsに記録されたブロックをすべて描写する
 function drawblocks(context){
 	context.globalAlpha = 0.3;//透明度の変更
-	context.fillStyle = getCurrentColor(); //塗りつぶしの色
+	context.fillStyle = currentcolor; //塗りつぶしの色
 
 	for(var i =0; i < blocks.length; i++){
 		//ブロックの描写
 		context.fillStyle = colors[i];//色選択
 		context.globalAlpha = 0.3;//透明度の変更
 		context.fillRect(blocks[i][0], blocks[i][1], blocks[i][2], blocks[i][3]);
-		context.globalAlpha = 1.0;//透明度の変更
+		context.globalAlpha = 1.0;//
+		context.fillStyle="#000000";//ブロック名を黒で表示
 		context.font= 'bold 20px Century Gothic';//フォント指定
 		context.fillText(labels[i], (blocks[i][0] + blocks[i][2]/2), (blocks[i][1] + blocks[i][3]/2));
 	}
@@ -232,19 +234,32 @@ function deleteAllBlocks()
 	document.getElementById("savebutton").disabled = true;
 }
 
-//現在選択している色の名前を取得する
-//ラジオボタンを使わなくしたい
-function getCurrentColor(){
-	var radioList = document.getElementsByName("color");
-	var color;
-	for(var i=0; i<radioList.length; i++){
-		if (radioList[i].checked) {
-			color = radioList[i].value;
-			break;
-		}
-	}
-	return color;
+
+//カラーパレット上でクリックした色を現在の色として保存
+function chooseColor(color){
+    //クリックされた要素の背景色取得
+    var newcolor_255 =(color.style.backgroundColor).toString();
+
+    //背景色の余計な文字列削除
+    newcolor_255 = newcolor_255.replace("rgb(","");
+    newcolor_255 = newcolor_255.replace(")","");
+
+    //文字列分割
+    newcolor_255 = newcolor_255.split(",");
+
+    //色..."#(6桁の16進数)"
+    var newcolor = "#";
+
+    //10進数を1色ずつ16進数に変換して連結
+    for(var i = 0; i < 3; i++){
+    	if(parseInt(newcolor_255[i]).toString(16).length < 2){
+    		newcolor = newcolor + "0";
+    	}
+    	newcolor = newcolor + parseInt(newcolor_255[i]).toString(16);
+    }
+    currentcolor = newcolor;
 }
+
 
 
 
@@ -273,21 +288,29 @@ function getCurrentColor(){
 	<!-- canvasで画像表示 -->
 	<body onLoad="drawMap()">
 	<canvas id="mapcanvas" style="background-color:#FFFFFF;" ></canvas>
+	<br>
+
+	<!-- カラーパレット -->
+	色選択<table border="1" cellpadding="5" cellspacing="0">
+		<tr>
+    		<td style="background-color:#ff0000" onclick="chooseColor(this)" width = "20"></td>
+    		<td style="background-color:#00ff00" onclick="chooseColor(this)" width = "20"></td>
+    		<td style="background-color:#0000ff" onclick="chooseColor(this)" width = "20"></td>
+    		<td style="background-color:#ffff00" onclick="chooseColor(this)" width = "20"></td>
+    		<td style="background-color:#00ffff" onclick="chooseColor(this)" width = "20"></td>
+    		<td style="background-color:#ff00ff" onclick="chooseColor(this)" width = "20"></td>
+  		</tr>
+	</table>
+
 
 	<!-- 編集ツール -->
 	<p>
-		<input type="radio" name="mode" value="make" checked=""> ブロックを作成
-		<input type="radio" name="mode" value="move"> ブロックを移動
+		<input type="radio" name="mode" value="make" checked=""> ブロックを作成<br>
+		<input type="radio" name="mode" value="move"> ブロックを移動<br>
 		<input type="radio" name="mode" value="delete"> ブロックを削除
 	</p>
 
-	<!-- 色選択のラジオボタン (仮) -->
-	<!-- パレットにしたい -->
-	<p>
-		<input type="radio" name="color" value="#FF0000" checked=""> 赤
-		<input type="radio" name="color" value="#00FF00"> 緑
-		<input type="radio" name="color" value="#0000FF"> 青
-	</p>
+
 
 	<form>
 		<input id ="resetbutton" type="button" value="全ブロック消去" onclick="deleteAllBlocks()">
