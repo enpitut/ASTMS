@@ -80,6 +80,36 @@ class ShopsController extends AppController {
 		}
 		$this->set('result', $data);
 	}
+
+	public function search_with_keyword() {
+			//リクエストがPOSTメソッドで送られてきた場合
+		if($this->request->is('post')) {
+				//formのパラメータ(ラジオボタンおよびテキスト)を取得
+			$searchtype = $this->request->data['searchtype'];
+			$searchword = $this->request->data('txt');
+			
+			switch ($searchtype) {
+				case 'shopname' :
+				$conditions = array('conditions' => array('Shop.name LIKE' => '%' . $searchword . '%'));
+				break;
+
+				case 'address' :
+				$conditions = array('conditions' => array('Shop.street_address LIKE' => '%' . $searchword . '%'));
+				break;
+
+				case 'category':
+				$conditions = array('conditions' => array('Shop.category LIKE' => '%' . $searchword . '%'));
+				break;
+			}
+				//条件に一致するものを全件取得
+			$data = $this->Shop->find('all', $conditions);
+		}else{
+			$data = $this->Shop->find('all');
+		}
+		$this->set('result', $data);
+	}
+
+
 	
 	//マップ作成画面
 	public function createmap(){
