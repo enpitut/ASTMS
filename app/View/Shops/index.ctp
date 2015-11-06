@@ -5,6 +5,7 @@
 <!-- <?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false); ?>  -->
 <?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false', false); ?>
 <!-- 始_グーグルマップオプション -->
+
 <?php
 	// Override any of the following default options to customize your map
 $map_options = array(
@@ -29,7 +30,6 @@ $map_options = array(
 	?>
 	<!-- 終_グーグルマップオプション -->
 
-
 	<!DOCTYPE html>
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
 	<head>
@@ -48,7 +48,7 @@ $map_options = array(
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 		<!-- 自作のCSSを読み込む -->
-		<?php  echo $this->Html->css('search');?><!-- cakephp/app/css/index.css (元default.css)-->
+		<?php  echo $this->Html->css('search.css');?><!-- cakephp/app/css/index.css (元default.css)-->
 		<title>ShopAreaWiki</title>
 	</head>
 
@@ -63,49 +63,46 @@ $map_options = array(
 
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<!-- 検索フォーム -->
-					<form  action="/ShopAreaWiki/shops/search" method="POST">
-						<input type="text" name="txt" class="search_box"  autofocus placeholder="店名">
-						<button type="submit" class="btn search_button"> 検 索 </button>
-					</form>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12 text-center">
 					<!-- 検索フォーム　-->
-					<form action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
-						<input type="text" name="txt" class="search_box" autofocus placeholder="キーワードを入力">
-						
+					<form class="form-inline" action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
+						<input type="text" name="keyword" id="keyword" class="search_box" autofocus placeholder="キーワードを入力">
+
 						<!--　ラジオボタンで検索対象選択 -->
-						<?php $options = array('shopname' => '店名', 'address' => '住所', 'category' => 'ジャンル');
-						$attributes = array('legend' => false, 'value' => 'shopname');
-						echo $this->Form->radio('searchtype', $options, $attributes);
-						?>
+						<div class="radio-inline">
+							<input type="radio" autocomplete="on" value="shopname" name="searchtype" id="shopname" >
+							<label for="shopname">店名</label>
+						</div>
+						<div class="radio-inline">
+							<input type="radio" value="address" name="searchtype" id="address">
+							<label for="address">住所</label>
+						</div>
+						<div class="radio-inline">
+							<input type="radio" value="category" name="searchtype" id="category">
+							<label for="category">ジャンル</label>
+						</div>
 
 						<button type="submit" class="btn search_button"> 検 索 </button>
 					</form>
 				</div>
 			</div>
-		</div>
-		
-		<div class="container-fluid">
-			<div class="row">
-				<div class ="col-md-12 text-center">
 
-					<!-- 始_マップ表示 -->
-					<!-- マップを画面の中心に表示 -->
-					<center><?= $this->GoogleMap->map($map_options); ?></center>
+			<div class="container-fluid">
+				<div class="row">
+					<div class ="col-md-12 text-center">
 
-					<!-- お店のマーカー表示（全ての店なので，後ほど表示範囲内に変更） -->
-					<?php foreach ($shops as $shop): ?>
-						<!-- $shop_marker_numに店idを代入すれば被らないし使いやすい -->
-						<?php $shop_marker_num = $shop['Shop']['id']; ?>
-						<!-- リンク用の変数にリンクを代入 -->
-						<?php $html{"$shop_marker_num"}=" <a href=\"view/$shop_marker_num\">{$shop['Shop']['name']}</a> "; ?>
-						<?php
+						<!-- 始_マップ表示 -->
+						<!-- マップを画面の中心に表示 -->
+						<center><?= $this->GoogleMap->map($map_options); ?></center>
+
+						<!-- お店のマーカー表示（全ての店なので，後ほど表示範囲内に変更） -->
+						<?php foreach ($shops as $shop): ?>
+							<!-- $shop_marker_numに店idを代入すれば被らないし使いやすい -->
+							<?php $shop_marker_num = $shop['Shop']['id']; ?>
+							<!-- リンク用の変数にリンクを代入 -->
+							<?php $html{"$shop_marker_num"}=" <a href=\"view/$shop_marker_num\">{$shop['Shop']['name']}</a> "; ?>
+							<?php
 				// マーカーオプション
-						$marker_options = array(
+							$marker_options = array(
 				'showWindow' => true,							//クリックしたときのウィンドウを表示するか
 				'windowText' => $html{"$shop_marker_num"} ,		//クリックしたときのウィンドウのテキスト
 				'markerTitle' => $shop['Shop']['name'],			//マーカーのタイトル

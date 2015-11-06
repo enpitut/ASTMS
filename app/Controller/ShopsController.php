@@ -85,8 +85,8 @@ class ShopsController extends AppController {
 			//リクエストがPOSTメソッドで送られてきた場合
 		if($this->request->is('post')) {
 				//formのパラメータ(ラジオボタンおよびテキスト)を取得
-			$searchtype = $this->request->data['searchtype'];
-			$searchword = $this->request->data('txt');
+			$searchtype = $this->request->data('searchtype');
+			$searchword = $this->request->data('keyword');
 			
 			switch ($searchtype) {
 				case 'shopname' :
@@ -100,6 +100,7 @@ class ShopsController extends AppController {
 				case 'category':
 				$conditions = array('conditions' => array('Shop.category LIKE' => '%' . $searchword . '%'));
 				break;
+
 			}
 				//条件に一致するものを全件取得
 			$data = $this->Shop->find('all', $conditions);
