@@ -78,10 +78,11 @@ $map_options = array(
 						</div>
 						<div class="radio-inline">
 							<input type="radio" value="category" name="searchtype" id="category">
-							<label for="category">ジャンル</label>
+							<label for="category">カテゴリ</label>
 						</div>
 
 						<button type="submit" class="btn search_button"> 検 索 </button>
+						
 					</form>
 				</div>
 			</div>

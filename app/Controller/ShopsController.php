@@ -91,19 +91,24 @@ class ShopsController extends AppController {
 			switch ($searchtype) {
 				case 'shopname' :
 				$conditions = array('conditions' => array('Shop.name LIKE' => '%' . $searchword . '%'));
+				$data = $this->Shop->find('all', $conditions);
 				break;
 
 				case 'address' :
 				$conditions = array('conditions' => array('Shop.street_address LIKE' => '%' . $searchword . '%'));
+				$data = $this->Shop->find('all', $conditions);
 				break;
 
 				case 'category':
 				$conditions = array('conditions' => array('Shop.category LIKE' => '%' . $searchword . '%'));
+				$data = $this->Shop->find('all', $conditions);
 				break;
 
+				default :
+				$data = $this->Shop->find('all');
 			}
 				//条件に一致するものを全件取得
-			$data = $this->Shop->find('all', $conditions);
+			
 		}else{
 			$data = $this->Shop->find('all');
 		}

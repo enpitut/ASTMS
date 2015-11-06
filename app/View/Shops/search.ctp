@@ -32,15 +32,26 @@
             </a>
         </div>
         <div class="col-md-8 search_div">
-            <!-- 検索フォーム -->
-            <form  action="http://localhost/ShopAreaWiki/shops/search" method="POST">
-                <div class="input-group">
-                    <input type="text" name="txt" class="form-control search_box" placeholder="店名">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
-                </div>
-            </form>
+            <!-- 検索フォーム　-->
+                    <form class="form-inline" action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
+                        <input type="text" name="keyword" id="keyword" class="search_box" autofocus placeholder="キーワードを入力">
+
+                        <!--　ラジオボタンで検索対象選択 -->
+                        <div class="radio-inline">
+                            <input type="radio" autocomplete="on" value="shopname" name="searchtype" id="shopname" >
+                            <label for="shopname">店名</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" value="address" name="searchtype" id="address">
+                            <label for="address">住所</label>
+                        </div>
+                        <div class="radio-inline">
+                            <input type="radio" value="category" name="searchtype" id="category">
+                            <label for="category">ジャンル</label>
+                        </div>
+
+                        <button type="submit" class="btn search_button"> 検 索 </button>
+                    </form>
         </div>
         <div class="col-md-1">
             <?php echo $this->Html->link("新規", array('controller' => 'Shops', 'action' => 'add')); ?>
