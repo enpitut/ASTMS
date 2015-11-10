@@ -73,7 +73,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => 'hogehoge',
+		'password' => 'admin',
 		'database' => 'shop_area_wiki',
 		'prefix' => '',
 		//'encoding' => 'utf8',

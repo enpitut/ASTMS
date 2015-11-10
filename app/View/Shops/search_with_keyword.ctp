@@ -1,4 +1,4 @@
-<!-- File: /app/View/Shops/search.ctp -->
+<!-- File: /app/View/Shops/search_with_keyword.ctp -->
 <?php $this->autoLayout = false; ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
@@ -28,39 +28,39 @@
         <div class="col-md-3">
             <!-- 画像 -->
             <a href="http://localhost/ShopAreaWiki/shops/">
-            <?php echo $this->Html->image('logo.png', array('alt' => 'Shop Area Wiki','class' => 'logo')); ?>
+                <?php echo $this->Html->image('logo.png', array('alt' => 'Shop Area Wiki','class' => 'logo')); ?>
             </a>
         </div>
-        <div class="col-md-8 search_div">
-            <!-- 検索フォーム　-->
-                    <form class="form-inline" action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
-                        <input type="text" name="keyword" id="keyword" class="search_box" autofocus placeholder="キーワードを入力">
+        <div class="col-md-8">
+         <!-- 検索フォーム　-->
+         <form class="form-inline" action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
+            <input type="text" name="keyword" id="keyword" class="search_box" autofocus placeholder="キーワードを入力">
 
-                        <!--　ラジオボタンで検索対象選択 -->
-                        <div class="radio-inline">
-                            <input type="radio" autocomplete="on" value="shopname" name="searchtype" id="shopname" >
-                            <label for="shopname">店名</label>
-                        </div>
-                        <div class="radio-inline">
-                            <input type="radio" value="address" name="searchtype" id="address">
-                            <label for="address">住所</label>
-                        </div>
-                        <div class="radio-inline">
-                            <input type="radio" value="category" name="searchtype" id="category">
-                            <label for="category">ジャンル</label>
-                        </div>
+            <!--　ラジオボタンで検索対象選択 -->
+            <div class="radio-inline">
+                <input type="radio" autocomplete="on" value="shopname" name="searchtype" id="shopname" >
+                <label for="shopname">店名</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" value="address" name="searchtype" id="address">
+                <label for="address">住所</label>
+            </div>
+            <div class="radio-inline">
+                <input type="radio" value="category" name="searchtype" id="category">
+                <label for="category">カテゴリ</label>
+            </div>
 
-                        <button type="submit" class="btn search_button"> 検 索 </button>
-                    </form>
-        </div>
-        <div class="col-md-1">
-            <?php echo $this->Html->link("新規", array('controller' => 'Shops', 'action' => 'add')); ?>
-        </div>
-  </div>
+            <button type="submit" class="btn search_button"> 検 索 </button>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <?php echo $this->Html->link("新規", array('controller' => 'Shops', 'action' => 'add')); ?>
+    </div>
+</div>
 
 
 
-  <?php foreach ($result as $shop): ?>
+<?php foreach ($result as $shop): ?>
     <div class="row">
         <div class="col-md-10 col-md-offset-1 search_row_name">
             <?php echo $this->Html->link($shop['Shop']['name'], array('controller' => 'Shops', 'action' => 'view', $shop['Shop']['id'])); ?>
