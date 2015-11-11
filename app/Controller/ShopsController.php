@@ -14,6 +14,29 @@ class ShopsController extends AppController {
         	//そのためにcreateを使う
 			$this->Shop->create();
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
+				
+				//ジオコード変換//////////////////////////////
+				//Google Maps APIジオコーディング読み込み
+				$api_url = 'http://maps.googleapis.com/maps/api/geocode/xml?address='. urlencode($this->request->data['Shop']['street_address']). '&sensor=false';
+				
+				//ジオコード結果をxmlへ格納
+				$xml = simplexml_load_file($api_url);
+				
+				$code = $xml->status;
+				
+				//扱いやすいように変数へ代入
+				$lat = $xml->result->geometry->location->lat;
+				$lng = $xml->result->geometry->location->lng;
+				
+				//緯度経度保存
+				$data_lng = array('Shop' => array('id' => $this->Shop->id, 'longitude' => $lng));
+				$fields_lng = array('longitude');
+				$this->Shop->save($data_lng, false, $fields_lng);
+				$data_lat = array('Shop' => array('id' => $this->Shop->id, 'latitude' => $lat));
+				$fields_lat = array('latitude');
+				$this->Shop->save($data_lat, false, $fields_lat);
+				
+				
 				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
       			//画像保存先のパス
 				$path = constant('WWW_ROOT') . 'img' . DS . 'shop_images';
