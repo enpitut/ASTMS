@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<section class="container-fluid">
 	<!-- ヘッダーっぽいもの -->
 	<div class="row header">
 		<div class="col-md-3">
@@ -120,6 +121,6 @@
 			</div>
 		</div>
 	</div>
-
+</section>
 </body>
 </html>

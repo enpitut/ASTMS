@@ -1,0 +1,68 @@
+div {
+	/*border: solid 1px #0000ff;*/
+}
+
+body {
+	/*padding: 10px;*/
+	/*background: #999;*/
+	/*font-size: 18px;*/
+	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+.header{
+	background-color: #fafafa;
+	border-bottom: solid 1px #aaa;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.logo {
+	width: 250px;
+}
+
+.information_row{
+	border-top: solid 1px #aaa;
+	padding: 20px;
+}
+
+.shop_name{
+	font-size: 2em;
+	color: #08c;
+}
+
+.footer{
+	margin-bottom: 20px;
+}
+
+/*ツールバー*/
+.toolbar{
+	margin-left: 25px;
+}
+
+/*カラーパレット*/
+.color_palet{
+	border:0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.color_palet tr td{
+	width: 25px;
+	height: 25px;
+	padding: 5px;
+}
+
+.operate_save_bar{
+	margin-bottom: 25px;
+}
+
+/*ブロック操作バー*/
+.operate_block_bar{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+
+
+

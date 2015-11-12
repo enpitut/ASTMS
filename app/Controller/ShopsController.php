@@ -1,5 +1,6 @@
 <?php
 class ShopsController extends AppController {
+	//public $helpers = array('Html', 'Form', 'Session');
 	public $helpers = array('Html', 'Form', 'Session', 'GoogleMap');
 	public $components = array('Session');
 
@@ -12,7 +13,10 @@ class ShopsController extends AppController {
         	//配列にデータを複数持ち、それをループで回して全て INSERT しようとした際に、
         	//ループ内で Model::save() をすると、2回目以降が UPDATE になってしまう
         	//そのためにcreateを使う
-			$this->Shop->create();
+
+        	$this->Shop->create();
+
+
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
 				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
       			//画像保存先のパス
@@ -34,9 +38,55 @@ class ShopsController extends AppController {
 				$this->Session->write('last_id', $this->Shop->getLastInsertID());
 
 				//マップ新規作成画面へ
+				$this->Session->setFlash(__('Succeeded to add your post.'));
 				return $this->redirect(array('action' => 'createmap'));
+
 			}
 			$this->Session->setFlash(__('Unable to add your post.'));
+		}
+	}
+
+	//createmapから戻ってきて直すときの処理
+	public function edit($id=null, $width = null, $height = null) {
+		$this->set('id', $id);
+		$shop = $this->Shop->findById($id);
+		$this->set('shop', $shop);
+
+		$this->set('width', $width);
+		$this->set('height', $height);
+
+		if ($this->request->is('post')) {
+       
+			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
+				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
+      			//画像保存先のパス
+				$path = constant('WWW_ROOT') . 'img' . DS . 'shop_images';
+				//画像の取得
+				$image = $this->request->data['Shop']['image'];
+				//保存する名前
+				$image['name'] = strval($this->Shop->id).'.jpg';
+
+				if(move_uploaded_file($image['tmp_name'], $path . DS . $image['name'])){
+					// $this->Session->setFlash('画像を登録しました');
+				}else{
+					// $this->Session->setFlash('登録失敗');
+				}
+				///////////////////////////////////////////////////////////////////////////////////////////////
+				//キャンバスサイズと追加した店のidをcreatemap.ctpに渡す
+				$this->Session->write('floorwidth', $this->request->data('Shop.width'));
+				$this->Session->write('floorheight', $this->request->data('Shop.height'));
+				$this->Session->write('last_id', $id);
+
+				//マップ新規作成画面へ
+				$this->Session->setFlash(__('Succeeded to add your post.'));
+				return $this->redirect(array('action' => 'createmap'));
+
+			}
+			$this->Session->setFlash(__('Unable to add your post.'));
+		}else {
+			//createから修正ボタンできた場合、フォームに今までの情報を初期値としてセット
+			$this->request->data;
+			$this->Shop->read();
 		}
 	}
 
@@ -80,6 +130,7 @@ class ShopsController extends AppController {
 		}
 		$this->set('result', $data);
 	}
+	
 
 	public function search_with_keyword() {
 			//リクエストがPOSTメソッドで送られてきた場合
@@ -93,17 +144,14 @@ class ShopsController extends AppController {
 				$conditions = array('conditions' => array('Shop.name LIKE' => '%' . $searchword . '%'));
 				$data = $this->Shop->find('all', $conditions);
 				break;
-
 				case 'address' :
 				$conditions = array('conditions' => array('Shop.street_address LIKE' => '%' . $searchword . '%'));
 				$data = $this->Shop->find('all', $conditions);
 				break;
-
 				case 'category':
 				$conditions = array('conditions' => array('Shop.category LIKE' => '%' . $searchword . '%'));
 				$data = $this->Shop->find('all', $conditions);
 				break;
-
 				default :
 				$data = $this->Shop->find('all');
 			}
@@ -115,8 +163,6 @@ class ShopsController extends AppController {
 		$this->set('result', $data);
 	}
 
-
-	
 	//マップ作成画面
 	public function createmap(){
 
@@ -131,9 +177,9 @@ class ShopsController extends AppController {
 		$this->set('shop', $shop);
 
 		//背景として読み込む画像のパス
-		$path = DS . constant('WEBROOT_DIR') . DS .'img' . DS . 'shop_images';
+		//$path = DS. 'ShopAreaWiki'. DS .'app'. DS . constant('WEBROOT_DIR') . '/img/shop_images';//手元の
+		$path = DS . constant('WEBROOT_DIR') . DS .'img' . DS . 'shop_images';//手元の
 		$this->set('path', $path);
-		debug($path);
 
 	}
 
@@ -150,14 +196,31 @@ class ShopsController extends AppController {
 
 		//まだ文字列の状態なので、画像リソース化
 		$image = imagecreatefromstring($canvas);
- 
+
 		//画像として保存
 		imagejpeg($image, WWW_ROOT . 'img' . DS .'shop_images'.DS. strval($this->request->data('Shop.id')).".jpg");
 		imagedestroy($image);
 
+
+		/*
+		//ここからブロック情報受け取り テスト
+		$blockpos = $this->request->data('Blocks.pos');
+		$blockname = $this->request->data('Blocks.name');
+		$blockcolor = $this->request->data('Blocks.color');
+
+		App::import("Controller", "Blocks");
+		$BlocksController = new BlocksController;
+		$post = $BlocksController->saveBlocks($this->request->data('Shop.id'), $blockpos, $blockname, $blockcolor); 
+ 
+		$BlocksController->getBlocks(); 
+		*/
+
+
 		//トップに戻る
 		return $this->redirect(array('action' => 'index'));
 	}
+
+
 
 	//Shopsから要素削除
 	public function delete(){

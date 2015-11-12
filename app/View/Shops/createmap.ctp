@@ -1,343 +1,155 @@
 <!-- File: /app/View/Shops/createmap.ctp -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Language" content="ja"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<?php $this->autoLayout = false; ?>
-<?php  echo $this->Html->css('shop_view');?>
-<?php  echo $this->Html->charset("utf-8");?>
+	<!-- Bootstrap の本体のCSSを読み込む -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<!-- javascript -->
-<script type="text/javascript">
+	<?php $this->autoLayout = false; ?>
+	<?php  echo $this->Html->css('createMap');?>
+	<?php  echo $this->Html->charset("utf-8");?>
+	<?php echo $this->Html->script('createMap'); ?>
 
-//******ブロック情報
-//(マップ保存時にデータベースに保存？)
-//(編集のときはデータベースからここに読み込む？)
+</head>
 
-//ブロックのサイズ指定
-//[0] = ブロック非選択状態
-var blocks = new Array (new Array(0, 0, 0, 0)); //(ブロックx座標, ブロックy座標, 幅, 高さ)
-//ブロック名
-var labels = new Array("");
-//色
-var colors = new Array("");
+<body onLoad="initCreateMap(<?php echo $shop['Shop']['id']?>,<?php echo $width; ?>,<?php echo $height; ?>)">
+<section class="container-fluid">
 
-
-
-
-//*******
-
-
-var x1, y1;//ブロック開始点
-var x2, y2;//終点
-var drag = false;//ドラッグ中か
-
-var chosenblock=0;//マウスで選択したブロックのナンバー (0 = 非選択状態)
-var currentcolor='#FF0000';//現在選択している色
-
-//背景+保存済みのブロック描画
-function drawMap(){
-	var canvas = document.getElementById('mapcanvas');
-	if (canvas.getContext) {
-		var context = canvas.getContext('2d');
-
-		//背景画像がない場合のcanvasサイズ=add画面で入力したサイズ
-  		canvas.width = <?php echo $width; ?>;
-		canvas.height= <?php echo $height; ?>;
-
-		//アップした画像("/cakephp/img/shop_images/店番号.jpg")の読み込み
-   		// 読み込めたら背景画像にする
-   		var shopid = <?php echo $shop['Shop']['id']?>;
-  		var img = new Image();
-  		
-  		var imgname = "<?= $path ?>" + "/" + String(shopid)+ ".jpg";
-
-  		img.src = imgname + "?" + new Date().getTime();
-  		img.onload = function() {
-  			canvas.width = img.width;
-			canvas.height= img.height;
-    			context.drawImage(img, 0, 0);
-
-    			//作ったブロックを描写
-    			drawblocks(context);
-
-    			//アップした画像は加工しなくても保存可能にする
-    			savemap(canvas);
-		}	
-    		
-    		//背景 白
-    		context.fillStyle='#FFFFFF';
-    		context.fillRect(0,0, canvas.width, canvas.height);
-
-	    	//canvasの枠線 黒
-		context.strokeStyle='#000000';
-		context.strokeRect(0,0,canvas.width, canvas.height);
-
-		//保存しておいたブロック描写
-		drawblocks(context);
-
-	}
-
-	//マウスの動き反映の設定
-	canvas.addEventListener("mousedown", mousedown, false);
-	canvas.addEventListener("mousemove", mousemove, false);
-	canvas.addEventListener("mouseup", mouseup, false);
-	
-}
-
-//ドラッグ開始時orマウスボタンを押したときの処理
-function mousedown(e) {
-	var canvas = document.getElementById('mapcanvas');
-	var context = canvas.getContext('2d');
-	var rect = e.target.getBoundingClientRect();
-	
-	//作業のモードチェック
-	var radioList = document.getElementsByName("mode");
-
-	//マウスの始点取得
-	if(drag==false){
-		x1 = e.clientX - rect.left;
-		y1 = e.clientY - rect.top;
-		drag=true;
-	}
-
-	if(radioList[1].checked || radioList[2].checked){//ブロック移動or削除モードの場合
-		//ブロックをクリックしたかを調べる
-		//******ブロックにリンク貼るときもこの判定を使う******
-		for(var i = 0; i < blocks.length; i++){
-			if(blocks[i][0] < x1 && x1 < blocks[i][0] + blocks[i][2]){//x座標チェック
-				if(blocks[i][1] < y1 && y1 < blocks[i][1] + blocks[i][3]){//y座標チェック
-					chosenblock = i
-					break;
-				}
-			}
-		}
-	}
-}
-
-//マウス移動中orドラッグ中の処理
-function mousemove(e){
-	var canvas = document.getElementById('mapcanvas');
-	var context = canvas.getContext('2d');
-	var rect = e.target.getBoundingClientRect();
-
-	//作業のモードチェック
-	var radioList = document.getElementsByName("mode");
-
-	if(radioList[0].checked){//ブロックのガイドライン表示
-		if(drag==true){
-			context.strokeRect(x1,y1, e.clientX - rect.left-x1, e.clientY - rect.top-y1);
-			context.fillStyle='#FFFFFF';
-			context.fillRect(x1,y1, e.clientX - rect.left-x1, e.clientY - rect.top-y1);
-		}
-	}else if(radioList[1].checked){//ブロック移動
-			context.strokeRect(blocks[chosenblock][0] + (e.clientX - rect.left-x1), blocks[chosenblock][1] + (e.clientY - rect.top-y1), blocks[chosenblock][2], blocks[chosenblock][3]);
-	}
-}
-
-//ドラッグ終了時orクリック修了時
-function mouseup(e) {
-	var canvas = document.getElementById('mapcanvas');
-	var context = canvas.getContext('2d');
-	var rect = e.target.getBoundingClientRect();
-
-	//ドラッグ終了フラグ
-	drag = false;
-
-	//終点取得
-	x2 = e.clientX - rect.left;
-	y2 = e.clientY - rect.top;
-
-	//作業のモードチェック
-	var radioList = document.getElementsByName("mode");
-
-	if(radioList[0].checked){//ブロック作成
-		//ブロック名の入力
-		var result = prompt("ブロック名を入力してください (例:「本」)","");
-		context.font= 'bold 20px Century Gothic';//フォント指定
-		context.globalAlpha = 1.0;//透明度の変更
-		context.fillText(result, (x1 + (x2-x1)/2), (y1 + (y2-y1)/2));
-	
-		//OKボタンが押されたらブロック情報を保存
-		if(result != ""){
-			blocks.push(new Array(x1, y1, x2-x1, y2-y1));
-			labels.push(result);
-			colors.push(currentcolor);
-		}
-	}else if(radioList[1].checked){//ブロック移動
-		//ブロックの座標を更新
-		blocks[chosenblock][0] += x2-x1;
-		blocks[chosenblock][1] += y2-y1;
-		
-	}else if(radioList[2].checked){//ブロック削除
-		if(0 < chosenblock){
-			blocks.splice(chosenblock, 1);
-			labels.splice(chosenblock, 1);
-			colors.splice(chosenblock, 1);
-		}	
-	}
-
-	chosenblock=0;//移動ブロックを非選択にする	
-	drawMap();//再描画
-	savemap(canvas);
-
-}
-
-//画像保存の準備
-function savemap(canvas){
-	//canvasの内容をエンコード
-	var newmapurl = canvas.toDataURL("image/jpeg");
-	
-	// ヘッダ "data:image/jpeg;base64,"を削除
-	var imgbody = newmapurl.split( ',' );
-	document.getElementById("mapstring").value=imgbody[1];
-
-	//一回でも描写したら保存可能にする
-	document.getElementById("savebutton").disabled = false;
-}
-
-//配列blocks,labels,colorsに記録されたブロックをすべて描写する
-function drawblocks(context){
-	context.globalAlpha = 0.3;//透明度の変更
-	context.fillStyle = currentcolor; //塗りつぶしの色
-
-	for(var i =0; i < blocks.length; i++){
-		//ブロックの描写
-		context.fillStyle = colors[i];//色選択
-		context.globalAlpha = 0.3;//透明度の変更
-		context.fillRect(blocks[i][0], blocks[i][1], blocks[i][2], blocks[i][3]);
-		context.globalAlpha = 1.0;//
-		context.fillStyle="#000000";//ブロック名を黒で表示
-		context.font= 'bold 20px Century Gothic';//フォント指定
-		context.fillText(labels[i], (blocks[i][0] + blocks[i][2]/2), (blocks[i][1] + blocks[i][3]/2));
-	}
-}
-
-//ブロックを全部消す
-function deleteAllBlocks()
-{
-  	var canvas = document.getElementById('mapcanvas');
-	var context = canvas.getContext('2d');
-
-    	//canvasの枠線
-	context.strokeStyle='#000000';
-	context.strokeRect(0,0,canvas.width, canvas.height);
-
-	savemap(canvas);
-
-	//ブロック情報を初期化
-	blocks = new Array(new Array(0, 0, 0, 0));
-	labels = new Array("");
-	colors = new Array("");
-
-	//背景画像は残す
-	drawMap();
-
-	//保存不可にする
-	document.getElementById("savebutton").disabled = true;
-}
-
-
-//カラーパレット上でクリックした色を現在の色として保存
-function chooseColor(color){
-    //クリックされた要素の背景色取得
-    var newcolor_255 =(color.style.backgroundColor).toString();
-
-    //背景色の余計な文字列削除
-    newcolor_255 = newcolor_255.replace("rgb(","");
-    newcolor_255 = newcolor_255.replace(")","");
-
-    //文字列分割
-    newcolor_255 = newcolor_255.split(",");
-
-    //色..."#(6桁の16進数)"
-    var newcolor = "#";
-
-    //10進数を1色ずつ16進数に変換して連結
-    for(var i = 0; i < 3; i++){
-    	if(parseInt(newcolor_255[i]).toString(16).length < 2){
-    		newcolor = newcolor + "0";
-    	}
-    	newcolor = newcolor + parseInt(newcolor_255[i]).toString(16);
-    }
-    currentcolor = newcolor;
-}
-
-
-
-
-</script>
-
-<!-- 店内マップ表示-->
-<div id="page">
-	<div>	<?php echo $this->Html->image('ww.jpg', array('alt' => 'Shop Area Wiki', 'width'=>'384','height'=>'62')); ?>
-	</div>
-	 
-	 <!-- 店舗情報 (編集できるようにしたい)-->
-	<div id="textwapper"> 
-		<span id="text1">
-			<?php echo 'name: ' . $shop['Shop']['name']; ?><br>
-		</span>
-		<span id="text2">
-			<?php echo  'id: ' . $shop['Shop']['id']; ?><br>
-			<?php echo 'postal_code: ' . $shop['Shop']['postal_code']; ?><br>
-			<?php echo 'prefecture: ' . $shop['Shop']['prefecture']; ?><br>
-			<?php echo 'street_address: ' . $shop['Shop']['street_address']; ?><br>
-			<?php echo 'category: ' . $shop['Shop']['category']; ?><br>
-			<?php echo 'comment: ' . $shop['Shop']['comment']; ?>
-		</span>
+		<!-- ヘッダーっぽいもの -->
+	<div class="row header">
+		<div class="col-md-12">
+			<!-- ロゴ -->
+			<a href="http://localhost/ShopAreaWiki/shops/">
+				<?php echo $this->Html->image('logo.png', array('alt' => 'Shop Area Wiki','class' => 'logo')); ?>
+			</a>
+		</div>
 	</div>
 
-	<!-- canvasで画像表示 -->
-	<body onLoad="drawMap()">
-	<canvas id="mapcanvas" style="background-color:#FFFFFF;" ></canvas>
-	<br>
-
-	<!-- カラーパレット -->
-	色選択<table border="1" cellpadding="5" cellspacing="0">
-		<tr>
-    		<td style="background-color:#ff0000" onclick="chooseColor(this)" width = "20"></td>
-    		<td style="background-color:#00ff00" onclick="chooseColor(this)" width = "20"></td>
-    		<td style="background-color:#0000ff" onclick="chooseColor(this)" width = "20"></td>
-    		<td style="background-color:#ffff00" onclick="chooseColor(this)" width = "20"></td>
-    		<td style="background-color:#00ffff" onclick="chooseColor(this)" width = "20"></td>
-    		<td style="background-color:#ff00ff" onclick="chooseColor(this)" width = "20"></td>
-  		</tr>
-	</table>
-
-
-	<!-- 編集ツール -->
-	<p>
-		<input type="radio" name="mode" value="make" checked=""> ブロックを作成<br>
-		<input type="radio" name="mode" value="move"> ブロックを移動<br>
-		<input type="radio" name="mode" value="delete"> ブロックを削除
-	</p>
-
-
-
-	<form>
-		<input id ="resetbutton" type="button" value="全ブロック消去" onclick="deleteAllBlocks()">
-	</form>	
-	<br>
-
-	<div>
-		<!-- 新しい店内マップを登録 -->
-		<form  id = "saveform" method="POST" action="/ShopAreaWiki/shops/savemap">
-			<div>
-				<input id = "savebutton" type="submit" value="店内マップを保存" disabled="true" />
-				<input id = "mapstring" type="hidden" name="data[Shop][mapstring]" >
-				<input id = "shopid" type="hidden" name="data[Shop][id]" value = <?php echo strval($shop['Shop']['id'])?>>
+	<div class="toolbar">
+		<!-- 色選択行 -->
+		<div class="row">
+			<div class="col-md-12">
+				色選択
+				<table class="color_palet"><tr>
+		    		<td style="background-color:#ff0000" onclick="chooseColor(this)"></td>
+		    		<td style="background-color:#00ff00" onclick="chooseColor(this)"></td>
+		    		<td style="background-color:#0000ff" onclick="chooseColor(this)"></td>
+		    		<td style="background-color:#ffff00" onclick="chooseColor(this)"></td>
+		    		<td style="background-color:#00ffff" onclick="chooseColor(this)"></td>
+		    		<td style="background-color:#ff00ff" onclick="chooseColor(this)"></td>
+    			</tr></table>
 			</div>
-		</form>
+		</div>
 
-		<!-- 登録キャンセル -->
-		<form id = "cancleform" method="POST" action="/ShopAreaWiki/shops/delete">
-			<div>
-				<input id = "cancelbutton" type="submit" value="登録をやめる" />
-				<input id = "deleteid" type="hidden" name="data[Shop][id]" value = <?php echo strval($shop['Shop']['id'])?> >
+		<!-- ブロック操作選択ボタン行 -->
+		<div class="row operate_block_bar">
+			<div class="col-md-2">
+				<input type="radio" name="mode" value="make" checked=""> ブロックを作成
 			</div>
-		</form>
-	</div>
-	
+			<div class="col-md-2">
+				<input type="radio" name="mode" value="move"> ブロックを移動
+			</div>
+			<div class="col-md-2">
+				<input type="radio" name="mode" value="delete"> ブロックを削除
+			</div>
 
-	<div id="tbottom">
-		Copyright &copy; 2015 ASTMS. All Rights Reserved.
+
+			<div class="col-md-2">
+				<button id ="resetbutton" type="button" class="btn btn-danger" onclick="deleteAllBlocks()">全ブロック消去</button>
+			</div>
+			<!-- <form>
+				<input id ="resetbutton" type="button" value="全ブロック消去" onclick="deleteAllBlocks()">
+			</form>	 -->
+
+		</div>
+
+
+		<!-- 全体操作選択ボタン行 -->
+		<div class="row operate_save_bar">
+			<!-- 新しい店内マップを登録 -->
+			<div class="col-md-1">
+				<form  id = "saveform2" method="POST" action="/ShopAreaWiki/shops/savemap">
+					<input id = "savebutton" type="submit" value="保存" class="btn btn-success"/>
+					<input id = "mapstring" type="hidden" name="data[Shop][mapstring]" >
+					<input id = "shopid" type="hidden" name="data[Shop][id]" value = <?php echo strval($shop['Shop']['id'])?>>
+
+					<!-- (ブロック情報の管理) --><!-- 途中-->
+					<!-- <input id = "blockpos" type="hidden" name = "data[Blocks][pos]";?>
+						<input id = "blockname" type="hidden" name = "data[Blocks][name]";?>
+						<input id = "blockcolor" type="hidden" name = "data[Blocks][color]";?>
+					-->
+				</form>
+
+
+			</div>
+
+			<!-- 登録キャンセル -->
+			<div class="col-md-1">
+				<form id = "cancleform" method="POST" action="/ShopAreaWiki/shops/delete">
+					<input id = "cancelbutton" type="submit" value="登録をやめる" class="btn btn-danger"/>
+					<input id = "deleteid" type="hidden" name="data[Shop][id]" value = <?php echo strval($shop['Shop']['id'])?> >
+				</form>
+			</div>
+		</div>
+
+		<div class="row"><?php echo $this-> Html-> link('登録内容を修正',array('action'=>'edit',$shop['Shop']['id'], $width, $height)); ?></div>
+		</div>
+
+		<div  class="container-fluid information_row">
+		<!-- 現在マップが表示されているお店の名前、郵便番号、住所、（電話番号）、ジャンル、コメントを記すエリア -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12 shop_name">
+						<?php echo  $shop['Shop']['name']; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<?php echo $shop['Shop']['postal_code']; ?> <?php echo $shop['Shop']['street_address']; ?>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-2">
+						<b>ジャンル</b>:
+					</div>
+					<div class="col-md-10">
+						<?php echo  $shop['Shop']['category']; ?>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<b>コメント</b>:
+					</div>
+					<div class="col-md-10">
+						<?php echo  $shop['Shop']['comment']; ?>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			店内マップ
+		</div>
+		<div class="panel-body">
+			<p align="center">
+				<canvas id="mapcanvas" style="background-color:#FFFFFF;" ></canvas>
+			</p>
+		</div>
+	</div>
+</section>
+</body>
+</html>
