@@ -1,0 +1,22 @@
+div {
+	/*border: solid 1px #0000ff;*/
+}
+
+body {
+	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+.header{
+	background-color: #fafafa;
+	border-bottom: solid 1px #aaa;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.logo {
+	width: 250px;
+}
+
+.row {
+	margin-bottom: 10px;
+}

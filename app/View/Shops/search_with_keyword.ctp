@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    <section class="container-fluid">
     <!-- ヘッダーっぽいもの -->
     <div class="row header">
         <div class="col-md-3">
@@ -93,5 +94,6 @@
     </div>
 <?php endforeach; ?>
 
+</section>
 </body>
 </html>
