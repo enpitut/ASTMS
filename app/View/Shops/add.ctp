@@ -44,12 +44,12 @@
 
 			<!-- 店名 -->
 			<div class="row">
-				<div class="col-md-4"><input class="form-control" placeholder="店名" name="data[Shop][name]" maxlength="60" type="text" id="ShopName"/></div>
+				<div class="col-md-4"><input class="form-control" placeholder="店名 (必須)" name="data[Shop][name]" maxlength="60" type="text" id="ShopName" required aria-required="true"/></div>
 			</div>
 
 			<!-- 郵便番号 -->
 			<div class="row">
-				<div class="col-md-4"><input class="form-control" placeholder="郵便番号" name="data[Shop][postal_code]" maxlength="10" type="text" id="ShopPostalCode"/></div>
+				<div class="col-md-4"><input class="form-control" placeholder="郵便番号 [入力例:123-4567]" name="data[Shop][postal_code]" maxlength="10" type="text" id="ShopPostalCode"/></div>
 			</div>
 
 			<div class="row"><div class="col-md-12">
@@ -109,7 +109,7 @@
 
 			<!-- 住所 -->
 			<div class="row">
-				<div class="col-md-4"><input class="form-control" placeholder="住所" name="data[Shop][street_address]" maxlength="100" type="text" id="ShopStreetAddress"/></div>
+				<div class="col-md-4"><input class="form-control" placeholder="住所 (必須)" name="data[Shop][street_address]" maxlength="100" type="text" id="ShopStreetAddress" required aria-required="true"/></div>
 			</div>
 
 			<!-- カテゴリー -->
