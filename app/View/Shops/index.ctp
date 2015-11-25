@@ -4,6 +4,8 @@
 <!-- グーグルヘルパー読み込み -->
 <!-- <?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false); ?>  -->
 <?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false', true); ?>
+<!-- マーカーをクラスタ化するために必要 -->
+<?= $this->Html->script("http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js", true); ?>
 <!-- 始_グーグルマップオプション -->
 
 <?php
@@ -113,6 +115,8 @@ $map_options = array(
 			<!-- マーカー付け -->
 			<?= $this->GoogleMap->addMarker("map_canvas", $shop_marker_num, array('latitude' => $shop['Shop']['latitude'], 'longitude' => $shop['Shop']['longitude']), $marker_options); ?>
 		<?php endforeach; ?>
+		<!-- マーカーのクラスタ化（近いものはまとめて表示） -->
+		<?php echo $this->GoogleMap->clusterMarkers("map_canvas");?>
 
 		<!-- 使わないけど残しておく範囲 -->
 		<?php
