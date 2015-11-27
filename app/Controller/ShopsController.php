@@ -14,7 +14,7 @@ class ShopsController extends AppController {
         	//ループ内で Model::save() をすると、2回目以降が UPDATE になってしまう
         	//そのためにcreateを使う
 
-        	$this->Shop->create();
+			$this->Shop->create();
 
 
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
@@ -79,7 +79,7 @@ class ShopsController extends AppController {
 		$this->set('height', $height);
 
 		if ($this->request->is('post')) {
-       
+
 			if ($this->Shop->save($this->request->data,true,array_keys($this->Shop->getColumnTypes()))) {
 				//以下 画像の保存////////////////////////////////////////////////////////////////////////////////
       			//画像保存先のパス
@@ -156,33 +156,36 @@ class ShopsController extends AppController {
 	
 
 	public function search_with_keyword() {
-			//リクエストがPOSTメソッドで送られてきた場合
+		//リクエストがPOSTメソッドで送られてきた場合
 		if($this->request->is('post')) {
-				//formのパラメータ(ラジオボタンおよびテキスト)を取得
-			$searchtype = $this->request->data('searchtype');
-			$searchword = $this->request->data('keyword');
-			
-			switch ($searchtype) {
-				case 'shopname' :
-				$conditions = array('conditions' => array('Shop.name LIKE' => '%' . $searchword . '%'));
-				$data = $this->Shop->find('all', $conditions);
-				break;
-				case 'address' :
-				$conditions = array('conditions' => array('Shop.street_address LIKE' => '%' . $searchword . '%'));
-				$data = $this->Shop->find('all', $conditions);
-				break;
-				case 'category':
-				$conditions = array('conditions' => array('Shop.category LIKE' => '%' . $searchword . '%'));
-				$data = $this->Shop->find('all', $conditions);
-				break;
-				default :
-				$data = $this->Shop->find('all');
-			}
-				//条件に一致するものを全件取得
-			
-		}else{
+
+			//formの各パラメータを取得
+			$SearchShopname = $this->request->data('shopname');
+			$SearchPrefecture = $this->request->data('prefecture');
+			$SearchAddress = $this->request->data('address');
+			$SearchCategory = $this->request->data('category');
+
+			/*$conditions = array('conditions' => array(
+				'Shop.name LIKE' => '%' . $searchword . '%',
+				'Shop.street_address LIKE' => '%' . $searchaddress . '%',
+				'Shop.category LIKE' => '%' . $searchcategory . '%'));*/
+
+			$data = $this->Shop->find('all', array(
+				'conditions' => array(
+					'and' => array(
+						'Shop.name LIKE' => '%' . $SearchShopname . '%',
+						'Shop.prefecture LIKE' => '%' . $SearchPrefecture . '%', 
+						'Shop.street_address LIKE' => '%' . $SearchAddress . '%',
+						'Shop.category LIKE' => '%' . $SearchCategory . '%'
+						)
+					)
+				)
+			);
+
+		} else {
 			$data = $this->Shop->find('all');
 		}
+
 		$this->set('result', $data);
 	}
 
@@ -209,10 +212,10 @@ class ShopsController extends AppController {
 	//(新規作成した)マップjpeg画像を保存
 	public function savemap(){
 		// viewを使用しない
-      	$this->autoRender = false;
+		$this->autoRender = false;
 
       	//エンコードされたキャンパスの内容を受け取る
-      	$file_path = $this->request->data('Shop.mapstring');
+		$file_path = $this->request->data('Shop.mapstring');
 
 		//文字列をデコード
 		$canvas = base64_decode($file_path);
@@ -249,9 +252,9 @@ class ShopsController extends AppController {
 	public function delete(){
 		$this->autoRender = false;
 
-    	$id = $this->request->data('Shop.id');
-    	$this->Shop->delete($id);
-    	$this->redirect(array('action'=>'index'));
+		$id = $this->request->data('Shop.id');
+		$this->Shop->delete($id);
+		$this->redirect(array('action'=>'index'));
 	}
 
 }
