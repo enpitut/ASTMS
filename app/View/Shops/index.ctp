@@ -50,7 +50,8 @@ $map_options = array(
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 		<!-- 自作のCSSを読み込む -->
-		<?php  echo $this->Html->css('search.css');?><!-- cakephp/app/css/index.css (元default.css)-->
+		<?php  echo $this->Html->css('index.css');?><!-- cakephp/app/css/index.css (元default.css)-->
+		<?php  echo $this->Html->script('index.js');?>
 		<title>ShopAreaWiki</title>
 	</head>
 
@@ -62,99 +63,118 @@ $map_options = array(
 					<div id="timage"><?php echo $this->Html->image('logo.png', array('alt' => 'Shop Area Wiki','class' => 'title')); ?></div>
 				</div>
 			</div>
+		</div>
 
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<!-- 検索フォーム　-->
-					<form class="form" action="/ShopAreaWiki/shops/search_with_keyword" method="POST">
-						<div class="row">
-							<div class="col-md-12 text-center">
-								<input type="text" name="shopname" class="search_box" autofocus placeholder="店名を入力">
-								<button type="submit" class="btn search_button"> 検 索 </button>
-							</div>
-						</div>
-						<div class="row">
-							<a class="btn btn-default" data-toggle="collapse" href="#MyCollapse">
-								検索条件設定
-							</a>
-							<div class="collapse" id="MyCollapse">
-								<div class="well">
-									検索結果を絞り込む条件を指定します
-									<div class="form-group">
-										<label class="col-md-2 control-label" for="InputAddress">所在地</label>
-										<div class="col-md-2">
-											<div class="input select">
-												<select name="prefecture">
-													<option value="" selected>---</option>
-													<option value="北海道">北海道</option>
-													<option value="青森県">青森県</option>
-													<option value="岩手県">岩手県</option>
-													<option value="宮城県">宮城県</option>
-													<option value="秋田県">秋田県</option>
-													<option value="山形県">山形県</option>
-													<option value="福島県">福島県</option>
-													<option value="茨城県">茨城県</option>
-													<option value="栃木県">栃木県</option>
-													<option value="群馬県">群馬県</option>
-													<option value="埼玉県">埼玉県</option>
-													<option value="千葉県">千葉県</option>
-													<option value="東京都">東京都</option>
-													<option value="神奈川県">神奈川県</option>
-													<option value="新潟県">新潟県</option>
-													<option value="富山県">富山県</option>
-													<option value="石川県">石川県</option>
-													<option value="福井県">福井県</option>
-													<option value="山梨県">山梨県</option>
-													<option value="長野県">長野県</option>
-													<option value="岐阜県">岐阜県</option>
-													<option value="静岡県">静岡県</option>
-													<option value="愛知県">愛知県</option>
-													<option value="三重県">三重県</option>
-													<option value="滋賀県">滋賀県</option>
-													<option value="京都府">京都府</option>
-													<option value="大阪府">大阪府</option>
-													<option value="兵庫県">兵庫県</option>
-													<option value="奈良県">奈良県</option>
-													<option value="和歌山県">和歌山県</option>
-													<option value="鳥取県">鳥取県</option>
-													<option value="島根県">島根県</option>
-													<option value="岡山県">岡山県</option>
-													<option value="広島県">広島県</option>
-													<option value="山口県">山口県</option>
-													<option value="徳島県">徳島県</option>
-													<option value="香川県">香川県</option>
-													<option value="愛媛県">愛媛県</option>
-													<option value="高知県">高知県</option>
-													<option value="福岡県">福岡県</option>
-													<option value="佐賀県">佐賀県</option>
-													<option value="長崎県">長崎県</option>
-													<option value="熊本県">熊本県</option>
-													<option value="大分県">大分県</option>
-													<option value="宮崎県">宮崎県</option>
-													<option value="鹿児島県">鹿児島県</option>
-													<option value="沖縄県">沖縄県</option>
-												</select>
-											</div>
-										</div>
-										<div class="col-md-8">
-											<input type="text" name="address" class="form-control" placeholder="区市町村以下　例)千葉市稲毛区弥生町">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-2 control-label" for="InputCategory">カテゴリー</label>
-										<div class="col-md-10">
-											<input type="text" name="category" class="form-control" placeholder="例)デパート">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
+					<h2>店内マップを共有するWikiサービス</h2>
 				</div>
 			</div>
 		</div>
 
-		<div class="container-fluid">
+		<div class= "container">
+			<div class="page-header text-primary">
+				<h4>条件を指定してお店を検索</h4>
+			</div>
+			<!-- 検索フォーム　-->
+			<form class="form" action="/ShopAreaWiki/shops/search" method="POST">
+				<div class="row">
+					<div class="form-group">
+						<label class="col-md-2 control-label text-right" for="InputShopname">店　　　名</label>
+						<div class="col-md-8">
+							<input type="text" name="shopname" class="form-control" id= "InputShopname" autofocus placeholder="例）イオン">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="form-group">
+						<label class="col-md-2 control-label text-right" for="InputAddress">所　在　地</label>
+						<div class="col-md-2">
+							<div class="dropdown">
+								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+									都道府県
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu scrollable-menu">
+									<li><a heref"#" data-value="">------</a></li>
+									<li><a heref"#" data-value="北海道">北海道</a></li>
+									<li><a heref"#" data-value="青森県">青森県</a></li>
+									<li><a heref"#" data-value="岩手県">岩手県</a></li>
+									<li><a heref"#" data-value="宮城県">宮城県</a></li>
+									<li><a heref"#" data-value="秋田県">秋田県</a></li>
+									<li><a heref"#" data-value="山形県">山形県</a></li>
+									<li><a heref"#" data-value="福島県">福島県</a></li>
+									<li><a heref"#" data-value="茨城県">茨城県</a></li>
+									<li><a heref"#" data-value="栃木県">栃木県</a></li>
+									<li><a heref"#" data-value="群馬県">群馬県</a></li>
+									<li><a heref"#" data-value="埼玉県">埼玉県</a></li>
+									<li><a heref"#" data-value="千葉県">千葉県</a></li>
+									<li><a heref"#" data-value="東京都">東京都</a></li>
+									<li><a heref"#" data-value="神奈川県">神奈川県</a></li>
+									<li><a heref"#" data-value="新潟県">新潟県</a></li>
+									<li><a heref"#" data-value="富山県">富山県</a></li>
+									<li><a heref"#" data-value="石川県">石川県</a></li>
+									<li><a heref"#" data-value="福井県">福井県</a></li>
+									<li><a heref"#" data-value="山梨県">山梨県</a></li>
+									<li><a heref"#" data-value="長野県">長野県</a></li>
+									<li><a heref"#" data-value="岐阜県">岐阜県</a></li>
+									<li><a heref"#" data-value="静岡県">静岡県</a></li>
+									<li><a heref"#" data-value="愛知県">愛知県</a></li>
+									<li><a heref"#" data-value="三重県">三重県</a></li>
+									<li><a heref"#" data-value="滋賀県">滋賀県</a></li>
+									<li><a heref"#" data-value="京都府">京都府</a></li>
+									<li><a heref"#" data-value="大阪府">大阪府</a></li>
+									<li><a heref"#" data-value="兵庫県">兵庫県</a></li>
+									<li><a heref"#" data-value="奈良県">奈良県</a></li>
+									<li><a heref"#" data-value="和歌山県">和歌山県</a></li>
+									<li><a heref"#" data-value="鳥取県">鳥取県</a></li>
+									<li><a heref"#" data-value="島根県">島根県</a></li>
+									<li><a heref"#" data-value="岡山県">岡山県</a></li>
+									<li><a heref"#" data-value="広島県">広島県</a></li>
+									<li><a heref"#" data-value="山口県">山口県</a></li>
+									<li><a heref"#" data-value="徳島県">徳島県</a></li>
+									<li><a heref"#" data-value="香川県">香川県</a></li>
+									<li><a heref"#" data-value="愛媛県">愛媛県</a></li>
+									<li><a heref"#" data-value="高知県">高知県</a></li>
+									<li><a heref"#" data-value="福岡県">福岡県</a></li>
+									<li><a heref"#" data-value="佐賀県">佐賀県</a></li>
+									<li><a heref"#" data-value="長崎県">長崎県</a></li>
+									<li><a heref"#" data-value="熊本県">熊本県</a></li>
+									<li><a heref"#" data-value="大分県">大分県</a></li>
+									<li><a heref"#" data-value="宮崎県">宮崎県</a></li>
+									<li><a heref"#" data-value="鹿児島県">鹿児島県</a></li>
+									<li><a heref"#" data-value="沖縄県">沖縄県</a></li>
+								</ul>
+								<input type="hidden" name="prefecture" value="">
+							</div>	
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="address" class="form-control" id="InputAddress"placeholder="区市町村以下　例）つくば市天王台">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="form-group">
+						<label class="col-md-2 control-label text-right" for="InputCategory">カ テ ゴ リ</label>
+						<div class="col-md-8">
+							<input type="text" name="category" class="form-control" id="InputCategory" placeholder="例）デパート">
+						</div>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search  </button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<br>
+		<div class="container">
+			<div class="page-header text-primary">
+				<h4>地図上からお店を検索</h4>
+			</div>
 			<div class="row">
 				<div class ="col-md-12 text-center">
 
@@ -213,6 +233,7 @@ $map_options = array(
 
 			</div>
 		</div>
+		<br>
 	</div>
 </body>
 </html>

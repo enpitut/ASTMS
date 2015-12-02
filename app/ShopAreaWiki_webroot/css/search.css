@@ -1,29 +1,27 @@
-div {
+﻿div {
 	/*border: solid 1px #0000ff;*/
 }
 
 body {
-	padding: 10px;
+	/*padding: 10px;*/
 	/*background: #999;*/
 	font-size: 18px;
 	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
-
-.title {
-	width:  700px;
-	margin-top: 140px;
+.header{
+	background-color: #fafafa;
+	border-bottom: solid 1px #aaa;
+	padding: 10px;
+	margin-bottom: 50px;
 }
 
-.search_box{
-	margin-top: 20px;
-	padding: 3px;
-	border:0;
-	font-size:1.5em;
-	/*font-family:Arial, sans-serif;*/
-	/*color:#aaa;*/
-	border:solid 1px #ccc;
-	width:550px;
+.logo {
+	width: 250px;
+}
+
+.search_div{
+	padding-top: 8px;	/*ロゴとの位置合わせ*/
 }
 
 .search_box:focus {
@@ -31,24 +29,26 @@ body {
     outline: 0;		/*これをやらないとフォーカスしたとき、周りに青いラインが出る*/
 }
 
-.search_button{
-	background-color: #09f;
-	font-size: 1.5em;
-	/*border:none;*/
-	color: #fff;
-	height: 50px;
-	margin-bottom: 15px;
+.search_box {
+	/*width: 500px;*/
 }
 
-.search_button:hover {
-	background-color: #2bf;
+.search_row_name {
 	font-size: 1.5em;
-	/*border:none;*/
-	color: #fff;
-	height: 50px;
-	/*margin-bottom: 5px;*/
 }
 
+.search_row_address {
+	font-size: 0.8em;
+	margin-top: 10px;
+}
 
+.search_row_category {
+	font-size: 0.8em;
+	margin-top: 10px;
+}
 
-
+.search_row_footer {
+	margin-top: 10px;
+	margin-bottom: 30px;
+	border-bottom: solid 2px #aaa;
+}
