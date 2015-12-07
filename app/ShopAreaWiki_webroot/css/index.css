@@ -1,0 +1,60 @@
+﻿div {
+	/*border: solid 1px #0000ff;*/
+}
+
+body {
+	/*padding: 10px;*/
+	/*background: #999;*/
+	font-size: 18px;
+	font-family:'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+
+.title {
+	width:  700px;
+	margin-top: 140px;
+}
+
+.scrollable-menu {
+                height: auto;
+                max-height: 250px;
+                overflow-x: hidden;
+}
+
+/*.txtbox{
+	margin-top: 20px;
+	padding: 3px;
+	border:0;
+	font-size:1.5em;
+	font-family:Arial, sans-serif;
+	color:#aaa;
+	border:solid 1px #ccc;
+	width:550px;
+}*/
+
+.txtbox:focus {
+	outline: 0;		/*これをやらないとフォーカスしたとき、周りに青いラインが出る*/
+    /*border-color: blue;*/
+}
+
+.search_button{
+	background-color: #09f;
+	font-size: 1.5em;
+	/*border:none;*/
+	color: #fff;
+	height: 50px;
+	margin-bottom: 15px;
+}
+
+.search_button:hover {
+	background-color: #2bf;
+	font-size: 1.5em;
+	/*border:none;*/
+	color: #fff;
+	height: 50px;
+	/*margin-bottom: 5px;*/
+}
+
+
+
+

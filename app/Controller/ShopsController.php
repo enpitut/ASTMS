@@ -138,24 +138,7 @@ class ShopsController extends AppController {
 
 	}
 
-	       //店名検索結果
 	public function search() {
-            //リクエストがPOSTメソッドで送られてきた場合
-		if($this->request->is('post')) {
-				//formのパラメータ取得
-			$searchword = $this->request->data('txt');
-           		//絞り込み条件
-			$conditions = array('conditions' => array('Shop.name LIKE' => '%' . $searchword . '%'));
-            	//条件に一致するものを全件取得
-			$data = $this->Shop->find('all', $conditions);
-		}else{
-			$data = $this->Shop->find('all');
-		}
-		$this->set('result', $data);
-	}
-	
-
-	public function search_with_keyword() {
 		//リクエストがPOSTメソッドで送られてきた場合
 		if($this->request->is('post')) {
 

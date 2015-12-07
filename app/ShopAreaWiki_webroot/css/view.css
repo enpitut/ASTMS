@@ -1,4 +1,4 @@
-div {
+﻿div {
 	/*border: solid 1px #0000ff;*/
 }
 
@@ -33,22 +33,28 @@ body {
 	/*width: 500px;*/
 }
 
-.search_row_name {
-	font-size: 1.5em;
+.information_row{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
 }
 
-.search_row_address {
-	font-size: 0.8em;
-	margin-top: 10px;
+.shop_name{
+	font-size: 3em;
+	color: #08c;
 }
 
-.search_row_category {
-	font-size: 0.8em;
-	margin-top: 10px;
+.footer{
+	margin-bottom: 20px;
 }
 
-.search_row_footer {
-	margin-top: 10px;
-	margin-bottom: 30px;
-	border-bottom: solid 2px #aaa;
-}
+
+
+
+
+
+
+
+
+
+
