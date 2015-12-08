@@ -39,40 +39,60 @@
             </div>
         </div>
 
+        <div class ="container-fluid">
+            <div class = "col-md-12 text-right">
+                <?php
+                echo $this->Paginator->counter(array('format' => '全%count%件　'));
+                echo $this->Paginator->counter(array('format' => '{:page}/{:pages}ページ目'));
+                ?>
+            </div>
+        </div>
 
 
-        <?php foreach ($result as $shop): ?>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 search_row_name">
-                    <?php echo $this->Html->link($shop['Shop']['name'], array('controller' => 'Shops', 'action' => 'view', $shop['Shop']['id'])); ?>
+        <div class="container-fluid">
+            <?php foreach ($result as $shop): ?>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 search_row_name">
+                        <?php echo $this->Html->link($shop['Shop']['name'], array('controller' => 'Shops', 'action' => 'view', $shop['Shop']['id'])); ?>
+                    </div>
                 </div>
-            </div>
-            <div class="row search_row_address">
-                <div class="col-md-10 col-md-offset-1">
-                    <?php echo '〒'."{$shop['Shop']['postal_code']}"." {$shop['Shop']['prefecture']} "."{$shop['Shop']['street_address']}"; ?>
+                <div class="row search_row_address">
+                    <div class="col-md-10 col-md-offset-1">
+                        <?php echo '〒'."{$shop['Shop']['postal_code']}"." {$shop['Shop']['prefecture']} "."{$shop['Shop']['street_address']}"; ?>
+                    </div>
                 </div>
-            </div>
-            <div class="row search_row_category">
-                <div class="col-md-2 text-right">
-                    カテゴリ:
+                <div class="row search_row_category">
+                    <div class="col-md-2 text-right">
+                        カテゴリ:
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $shop['Shop']['category']; ?>
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <?php echo $shop['Shop']['category']; ?>
+                <div class="row search_row_category">
+                    <div class="col-md-2 text-right">
+                        コメント:
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $shop['Shop']['comment']; ?>
+                    </div>
                 </div>
-            </div>
-            <div class="row search_row_category">
-                <div class="col-md-2 text-right">
-                    コメント:
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 search_row_footer">
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <?php echo $shop['Shop']['comment']; ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 search_row_footer">
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </section>
-</body>
-</html>
+            <?php endforeach; ?>
+
+            <div class="row text-center">
+             <?php
+             echo $this->Paginator->prev('<<前へ' . __(''), array(), null, array('class' => 'prev disabled'));
+             ?>
+
+             <?php
+             echo $this->Paginator->next(__('') . ' 次へ>>', array(), null, array('class' => 'next disabled'));
+             ?>
+         </div>
+
+     </section>
+ </body>
+ </html>
