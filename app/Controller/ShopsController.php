@@ -184,6 +184,29 @@ class ShopsController extends AppController {
 		$last_id = $this->Session->read('last_id');
 		$shop = $this->Shop->findById($last_id);
 		$this->set('shop', $shop);
+		
+		//********** 以下DBからのブロック情報読み込み作成中 **********
+		//店idからブロック情報を取得？
+		//該当するブロックのidリストを渡すか？？
+		//ブロック座標の配列、色、名前をブロックコントローラでまとめて、ビュー、javascriptにはそのまま渡すようにする？？
+		//編集の時はcreatemapの引数としてidを渡しておく
+		App::import("Controller", "Blocks");
+		$BlocksController = new BlocksController;
+		$blocks = $BlocksController->getBlocks(36);//読み込む店のIDをgetBlocksの引数で指定
+		debug($blocks[0]['Block']);
+		$this->set('dbblock', $blocks);//createmap.ctpにブロック情報を渡す　このままだとjavascriptに渡しにくい
+		
+		//json形式に変換してみる
+		$json_test = json_encode($blocks[0]['Block']);
+		$this->set('json_test', $json_test);
+		debug($json_test);
+
+		//以下4行はブロックに関係なくjsonのテスト
+		$arraytest = ["a" => "apple", "b" => "bluebird"];
+		$json_test2 = json_encode($arraytest);
+		$this->set('json_test2', $json_test2);
+		debug($json_test2);
+		//********************
 
 		//背景として読み込む画像のパス
 		//$path = DS. 'ShopAreaWiki'. DS .'app'. DS . constant('WEBROOT_DIR') . '/img/shop_images';//手元の
@@ -211,18 +234,13 @@ class ShopsController extends AppController {
 		imagedestroy($image);
 
 
-		/*
-		//ここからブロック情報受け取り テスト
+		//ブロック情報をDBに保存 
 		$blockpos = $this->request->data('Blocks.pos');
 		$blockname = $this->request->data('Blocks.name');
 		$blockcolor = $this->request->data('Blocks.color');
-
 		App::import("Controller", "Blocks");
 		$BlocksController = new BlocksController;
 		$post = $BlocksController->saveBlocks($this->request->data('Shop.id'), $blockpos, $blockname, $blockcolor); 
- 
-		$BlocksController->getBlocks(); 
-		*/
 
 
 		//トップに戻る
