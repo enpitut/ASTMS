@@ -2,7 +2,7 @@
 class ShopsController extends AppController {
 	//public $helpers = array('Html', 'Form', 'Session');
 	public $helpers = array('Html', 'Form', 'Session', 'GoogleMap');
-	public $components = array('Session');
+	public $components = array('Paginator', 'Session');
 
 	public function index() {
 		$this->set('shops', $this->Shop->find('all'));
@@ -139,36 +139,41 @@ class ShopsController extends AppController {
 	}
 
 	public function search() {
-		//リクエストがPOSTメソッドで送られてきた場合
+		     //リクエストがPOSTメソッドで送られてきた場合
 		if($this->request->is('post')) {
-
-			//formの各パラメータを取得
+				//formのパラメータ取得
 			$SearchShopname = $this->request->data('shopname');
 			$SearchPrefecture = $this->request->data('prefecture');
 			$SearchAddress = $this->request->data('address');
 			$SearchCategory = $this->request->data('category');
 
-			/*$conditions = array('conditions' => array(
-				'Shop.name LIKE' => '%' . $searchword . '%',
-				'Shop.street_address LIKE' => '%' . $searchaddress . '%',
-				'Shop.category LIKE' => '%' . $searchcategory . '%'));*/
-
-			$data = $this->Shop->find('all', array(
+			//ページネーションのセッティング内容
+			$params = array(
+				'limit' => 10, //1ページあたりの表示件数
+				'maxLimit' => 10, //最大表示件数
+				//検索条件
 				'conditions' => array(
+					//and検索をする
 					'and' => array(
-						'Shop.name LIKE' => '%' . $SearchShopname . '%',
-						'Shop.prefecture LIKE' => '%' . $SearchPrefecture . '%', 
-						'Shop.street_address LIKE' => '%' . $SearchAddress . '%',
-						'Shop.category LIKE' => '%' . $SearchCategory . '%'
-						)
+						'Shop.name LIKE' => '%' . $SearchShopname . '%', //店名
+						'Shop.prefecture LIKE' => '%' . $SearchPrefecture . '%', //都道府県 
+						'Shop.street_address LIKE' => '%' . $SearchAddress . '%', //区市町村以下
+						'Shop.category LIKE' => '%' . $SearchCategory . '%') //カテゴリ
 					)
-				)
-			);
+				);
 
-		} else {
-			$data = $this->Shop->find('all');
+			//　ページ切り替え時に検索条件を保持するようパラメータをセッション変数に保存
+			$this->Session->write('params', $params);
+
+		}else{
+			// セッション変数の展開
+			if($this->Session->check('params')) {
+				$params = $this->Session->read('params');
+			}
 		}
 
+		$this->Paginator->settings = $params;
+		$data = $this->paginate();
 		$this->set('result', $data);
 	}
 
