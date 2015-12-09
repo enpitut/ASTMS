@@ -21,7 +21,20 @@
 
 </head>
 
+<!-- ********** キャンバス初期化時にブロック情報読み込み追加予定 **********-->
+<!-- もともとのコード　DBからブロックは受け取らない --> 
 <body onLoad="initCreateMap(<?php echo $shop['Shop']['id']?>,<?php echo $width; ?>,<?php echo $height; ?>)">
+
+<!-- 以下3つ ブロック情報の読み込みテスト  -->
+<!-- phpの変数としては読めるがcreatemap.jsに渡せていない-->
+<!-- ********** -->
+<!-- <body onLoad="initCreateMap(<?php echo $shop['Shop']['id']?>,<?php echo $width; ?>,<?php echo $height; ?>,<?php echo $dbblock[0]['Block']['id']; ?>)"> -->
+
+<!-- <body onLoad="initCreateMap(<?php echo $shop['Shop']['id']?>,<?php echo $width; ?>,<?php echo $height; ?>,<?php echo $dbblock[0]['Block']; ?>)"> -->
+
+ <!-- <body onLoad="initCreateMap(<?php echo $shop['Shop']['id']?>,<?php echo $width; ?>,<?php echo $height; ?>, JSON.parse('<?php echo $json_test2;?>'))"> -->
+<!-- ********** -->
+	
 <section class="container-fluid">
 
 		<!-- ヘッダーっぽいもの -->
@@ -82,11 +95,10 @@
 					<input id = "mapstring" type="hidden" name="data[Shop][mapstring]" >
 					<input id = "shopid" type="hidden" name="data[Shop][id]" value = <?php echo strval($shop['Shop']['id'])?>>
 
-					<!-- (ブロック情報の管理) --><!-- 途中-->
-					<!-- <input id = "blockpos" type="hidden" name = "data[Blocks][pos]";?>
-						<input id = "blockname" type="hidden" name = "data[Blocks][name]";?>
-						<input id = "blockcolor" type="hidden" name = "data[Blocks][color]";?>
-					-->
+					<!-- ブロック情報の登録 -->
+					<input id = "blockpos" type="hidden" name = "data[Blocks][pos]";?>
+					<input id = "blockname" type="hidden" name = "data[Blocks][name]";?>
+					<input id = "blockcolor" type="hidden" name = "data[Blocks][color]";?>
 				</form>
 
 
