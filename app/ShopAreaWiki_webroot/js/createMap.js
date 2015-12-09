@@ -21,24 +21,26 @@ var x2, y2;//終点
 var drag = false;//ドラッグ中か
 
 var chosenblock=0;//マウスで選択したブロックのナンバー (0 = 非選択状態)
-var currentcolor='#FF0000';//現在選択している色
+var currentcolor='#ff0000';//現在選択している色
 
-//描写したブロック情報をhtmlに渡す
-//function setBlockinfo(){
-//	document.getElementById('blockpos').value=blocks;
-//	document.getElementById('blockname').value=labels;
-//	document.getElementById('blockcolor').value=colors;	
-//}
+//描写したブロック情報をhtmlに渡す //プルリク後実験
+function setBlockinfo(){
+	document.getElementById('blockpos').value=blocks;
+	document.getElementById('blockname').value=labels;
+	document.getElementById('blockcolor').value=colors;	
+}
 
 //応急処置のグローバル変数を作る後で消す/////////////////////////////////////////////////////////////////////////////////////////
 
 var SHOPID, WIDHTH, HEIGHT;
 
 //初期化
-function initCreateMap(shopID, width, height){
+//ここでブロック情報初期化？
+function initCreateMap(shopID, width, height, blocks){
 	SHOPID = shopID;
 	WIDHTH = width;
 	HEIGHT = height;
+	//loadBlocks(shopID);//ブロック読み込み
 	drawMap();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
